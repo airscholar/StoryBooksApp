@@ -16,6 +16,7 @@ import session from "express-session";
 import authView from "./routes/auth/auth.routes.view";
 import backendRoutes from "./routes/auth/auth.routes";
 import mainViews from "./routes/dashboard/dashboard.routes.view";
+import { guestAuthenticate } from "./middlewares/auth.middleware";
 
 const app = express();
 
@@ -52,15 +53,17 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // ROUTES
 // login/landing page loader
-app.get("/", (req, res) => {
+app.get("/", guestAuthenticate, (req, res) => {
   res.render(path.join("auth", "loginView"), {
     title: "Login | StoryBook",
     layout: "loginLayout",
   });
 });
-
+// views
 app.use("/", mainViews);
 app.use("/auth", authView);
+
+// backend
 app.use("/api", backendRoutes);
 
 const PORT = process.env.PORT || 5000;
