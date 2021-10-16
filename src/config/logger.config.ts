@@ -24,13 +24,13 @@ const combined = new DailyRotateFile({
 export default function () {
   // handling uncaught exceptions so not things going wrong in express
   // e.g. during startup
-  process.on("uncaughtException", (ex: any) => {
+  process.on("uncaughtException", (ex: { message: string; stack: string }) => {
     winston.error(ex.message, ex);
     process.exit(1);
   });
 
   // handling rejections (promises) so ones missing the catch block
-  process.on("unhandledRejection", (ex: any) => {
+  process.on("unhandledRejection", (ex: { message: string; stack: string }) => {
     winston.error(ex.message, ex);
     process.exit(1);
   });
