@@ -13,6 +13,7 @@ import connectDB from "./config/db.config";
 import exphbs from "express-handlebars";
 import path from "path";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import authView from "./routes/auth/auth.routes.view";
 import backendRoutes from "./routes/auth/auth.routes";
 import mainViews from "./routes/dashboard/dashboard.routes.view";
@@ -42,6 +43,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: env.MONGO_URI }),
   })
 );
 
