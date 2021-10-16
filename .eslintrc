@@ -4,7 +4,22 @@
   "plugins": ["@typescript-eslint", "no-loops"],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended"],
   "rules": {
-    "no-console": "warn",
-    "no-loops/no-loops": "error"
+    "no-console": "error",
+    "no-loops/no-loops": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "one-var": ["error", "never"],
+    "quotes": ["error", "double"],
+    "strict": ["error", "global"],
+    // "camelcase": "error",
+    "no-unused-vars": "error",
+    "no-multi-assign": "error",
+    "no-array-constructor": "error",
+    "no-new-object": "error",
+    "no-new-symbol": "error",
+    "quote-props": ["error", "as-needed"],
+    "yoda": "error",
+    "no-unneeded-ternary": "error",
+    "no-nested-ternary": "error"
   }
 }
