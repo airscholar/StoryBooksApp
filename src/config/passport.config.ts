@@ -1,3 +1,4 @@
+import { UserInterface } from "./../models/User.model";
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
 import passport from "passport";
 import GoogleOauth20 from "passport-google-oauth20";
@@ -5,7 +6,7 @@ import winston from "winston";
 import User from "../models/User.model";
 import env from "./env.config";
 
-type userType = Express.User & { _id?: string };
+type userType = (UserInterface | Express.User) & { _id?: string };
 
 passport.serializeUser((user: userType, done) => {
   User.findById(user._id).then(user => {
@@ -21,7 +22,7 @@ passport.serializeUser((user: userType, done) => {
 
 passport.deserializeUser((_id, done) => {
   User.findById(_id).then(user => {
-    done(null, user);
+    done(null, new User(user));
   });
 });
 
@@ -38,7 +39,7 @@ passport.use(
       User.findOne({
         googleId: profile.id,
       })
-        .then(dbUserRecord => {
+        .then((dbUserRecord: UserInterface) => {
           if (!dbUserRecord) {
             const newUser = new User({
               googleId: profile.id,
@@ -47,11 +48,11 @@ passport.use(
               display_name: profile.displayName,
               image: profile.photos ? profile.photos[0].value : "default.png",
             });
-            newUser.save().then((newUser: Express.User | undefined) => {
-              done(null, newUser);
+            newUser.save().then((newUser: UserInterface) => {
+              done(null, new User(newUser));
             });
           }
-          done(null, dbUserRecord);
+          done(null, new User(dbUserRecord));
         })
         .catch(err => {
           winston.error(err);
