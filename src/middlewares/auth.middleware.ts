@@ -6,14 +6,11 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
   if (!req.isAuthenticated()) {
     return res.redirect("/");
   }
-
-  // req.user = new UserModel(req.user);
   next();
 };
 
 export const guestAuthenticate = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
-    // req.user = new UserModel(req.user);
     return res.redirect("/dashboard");
   }
 
